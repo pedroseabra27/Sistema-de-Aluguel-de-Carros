@@ -12,7 +12,6 @@ Este projeto consiste no desenvolvimento de um Sistema Aluguel de Carros web des
 - João Paulo Carneiro Aramuni
 
 ## Tecnologias utilizadas
-- Svelte, Render, Figma, GitHub
  
 ## Relação das dependências e bibliotecas/frameworks usados
 - Svelte, Tailwind, Lucide, Daisyui
