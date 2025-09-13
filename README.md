@@ -14,8 +14,6 @@ Este projeto consiste no desenvolvimento de um Sistema Aluguel de Carros web des
 ## Tecnologias utilizadas
  
 ## Relação das dependências e bibliotecas/frameworks usados
-- Svelte, Tailwind, Lucide, Daisyui
-
 
 ## Estrutura de diretórios do projeto
 
