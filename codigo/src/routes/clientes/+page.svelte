@@ -95,9 +95,8 @@
 </script>
 
 <div class="p-4">
-	<h1 class="mb-6 text-2xl font-bold">Gestão de Clientes</h1>
-
-	<div class="mb-6 flex justify-end">
+	<div class="mb-6 flex items-center justify-between">
+		<h1 class=" text-2xl font-bold">Gestão de Clientes</h1>
 		<button class="btn btn-primary" onclick={openCreateModal}>Novo Cliente</button>
 	</div>
 
