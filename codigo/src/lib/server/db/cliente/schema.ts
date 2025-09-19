@@ -8,3 +8,6 @@ export const clienteT = pgTable('cliente', {
 	endereco: text().notNull(),
 	profissao: text()
 });
+
+export type SelectCliente = typeof clienteT.$inferSelect;
+export type InsertCliente = typeof clienteT.$inferInsert;
