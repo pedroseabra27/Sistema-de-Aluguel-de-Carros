@@ -45,7 +45,7 @@
 </script>
 
 <Form
-	title="Serralheria Amazonas"
+	title="Aluguel de carros"
 	badgeText="Acesso ao Sistema"
 	dividerText="ou continue com"
 	footerLinkText="Registrar"

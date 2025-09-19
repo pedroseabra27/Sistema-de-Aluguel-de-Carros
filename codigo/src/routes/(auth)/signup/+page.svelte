@@ -109,7 +109,7 @@
 </script>
 
 <Form
-	title="Serralheria Amazonas"
+	title="Aluguel de carros"
 	badgeText="Criar Conta"
 	dividerText="ou cadastre-se com"
 	footerLinkText="Entrar"
