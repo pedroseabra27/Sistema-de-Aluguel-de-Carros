@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { authClient } from '$lib/client/auth-client';
 	import Form from '$lib/client/components/Form.svelte';
 	import { Eye, EyeOff, Mail, Lock, User, Home, AlertCircle, CheckCircle } from '@lucide/svelte';
@@ -84,8 +85,7 @@
 					{
 						email: formData.email,
 						password: formData.senha,
-						name: formData.nome,
-						callbackURL: '/admin'
+						name: formData.nome
 					},
 					{
 						onSuccess: (ctx) => {
@@ -96,6 +96,10 @@
 						}
 					}
 				);
+
+				if (!error) {
+					await goto('/');
+				}
 
 				console.log('SignUp data:', data);
 				console.log('SignUp error:', error);
