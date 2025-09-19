@@ -1,6 +1,11 @@
 <script lang="ts">
-	import { criarCliente, excluirCliente, listarClientes } from '$lib/client/remote/cliente.remote';
-	import type { InsertCliente } from '$lib/server/db/schema';
+	import {
+		criarCliente,
+		editarCliente,
+		excluirCliente,
+		listarClientes
+	} from '$lib/client/remote/cliente.remote';
+	import type { InsertCliente, SelectCliente } from '$lib/server/db/schema';
 	import { toast } from 'svelte-sonner';
 	import type { PageProps } from './$types';
 
@@ -14,8 +19,9 @@
 		profissao: null
 	});
 
-	let isEditing = $state(false);
-	let editingIndex = $state(-1);
+	let customerToEdit = $state<SelectCliente | null>(null);
+	let showEditModal = $state(false);
+
 	let searchQuery = $state('');
 
 	let isCreating = $state(false);
@@ -33,9 +39,26 @@
 		}
 	}
 
-	function editCustomer(index: number) {
-		isEditing = true;
-		editingIndex = index;
+	function editCustomer(cliente: SelectCliente) {
+		customerToEdit = { ...cliente };
+		showEditModal = true;
+	}
+
+	let isUpdating = $state(false);
+	async function updateCustomer() {
+		if (!customerToEdit) return;
+
+		isUpdating = true;
+		const toastId = toast.loading('Atualizando cliente...');
+		try {
+			await editarCliente({ id: customerToEdit.id, data: customerToEdit });
+			showEditModal = false;
+			toast.success('Sucesso ao atualizar cliente!', { id: toastId });
+		} catch (error) {
+			toast.error('Erro ao atualizar cliente', { id: toastId });
+		} finally {
+			isUpdating = false;
+		}
 	}
 
 	let isDeleting = $state(false);
@@ -70,7 +93,7 @@
 	<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 		<div class="card bg-base-100 border-base-200 border shadow-xl">
 			<div class="card-body">
-				<h2 class="card-title">{isEditing ? 'Editar Cliente' : 'Novo Cliente'}</h2>
+				<h2 class="card-title">Novo Cliente</h2>
 				<div>
 					<div class="form-control">
 						<label class="label" for="nome">
@@ -135,23 +158,13 @@
 						/>
 					</div>
 
-					<div class="form-control mt-4 w-full flex-row gap-2">
+					<div class="form-control mt-4 w-full">
 						<button
 							type="button"
 							class="btn btn-primary w-full"
 							disabled={isCreating}
-							onclick={handleSubmit}>{isEditing ? 'Atualizar' : 'Cadastrar'}</button
+							onclick={handleSubmit}>Cadastrar</button
 						>
-						{#if isEditing}
-							<button
-								type="button"
-								class="btn btn-outline"
-								onclick={() => {
-									isEditing = false;
-									resetForm();
-								}}>Cancelar</button
-							>
-						{/if}
 					</div>
 				</div>
 			</div>
@@ -195,9 +208,8 @@
 												<td>{customer.rg}</td>
 												<td>{customer.profissao || '-'}</td>
 												<td class="flex gap-2">
-													<button
-														class="btn btn-sm btn-info"
-														onclick={() => editCustomer(customer.id)}>Editar</button
+													<button class="btn btn-sm btn-info" onclick={() => editCustomer(customer)}
+														>Editar</button
 													>
 													<button
 														class="btn btn-sm btn-error"
@@ -223,3 +235,82 @@
 		</div>
 	</div>
 </div>
+
+{#if showEditModal && customerToEdit}
+	<div class="modal modal-open">
+		<div class="modal-box">
+			<h3 class="mb-4 text-lg font-bold">Editar Cliente</h3>
+
+			<div class="form-control">
+				<label class="label" for="edit-nome">
+					<span class="label-text">Nome Completo</span>
+				</label>
+				<input
+					type="text"
+					id="edit-nome"
+					class="input input-bordered w-full"
+					bind:value={customerToEdit.nome}
+					required
+				/>
+			</div>
+
+			<div class="form-control mt-2">
+				<label class="label" for="edit-rg">
+					<span class="label-text">RG</span>
+				</label>
+				<input
+					type="text"
+					id="edit-rg"
+					class="input input-bordered w-full"
+					bind:value={customerToEdit.rg}
+					required
+				/>
+			</div>
+
+			<div class="form-control mt-2">
+				<label class="label" for="edit-cpf">
+					<span class="label-text">CPF</span>
+				</label>
+				<input
+					type="text"
+					id="edit-cpf"
+					class="input input-bordered w-full"
+					bind:value={customerToEdit.cpf}
+					required
+				/>
+			</div>
+
+			<div class="form-control mt-2">
+				<label class="label" for="edit-endereco">
+					<span class="label-text">Endereço</span>
+				</label>
+				<textarea
+					id="edit-endereco"
+					class="textarea textarea-bordered w-full"
+					bind:value={customerToEdit.endereco}
+					required
+				></textarea>
+			</div>
+
+			<div class="form-control mt-2">
+				<label class="label" for="edit-profissao">
+					<span class="label-text">Profissão</span>
+				</label>
+				<input
+					type="text"
+					id="edit-profissao"
+					class="input input-bordered w-full"
+					bind:value={customerToEdit.profissao}
+				/>
+			</div>
+
+			<div class="modal-action">
+				<button class="btn btn-primary" disabled={isUpdating} onclick={updateCustomer}>
+					{isUpdating ? 'Atualizando...' : 'Atualizar'}
+				</button>
+				<button class="btn" onclick={() => (showEditModal = false)}> Cancelar </button>
+			</div>
+		</div>
+		<div class="modal-backdrop" onclick={() => (showEditModal = false)}></div>
+	</div>
+{/if}

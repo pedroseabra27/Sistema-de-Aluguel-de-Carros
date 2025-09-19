@@ -7,8 +7,8 @@ export const clienteController = () => ({
 	criarCliente: async (newCliente: InsertCliente) => {
 		await db.insert(clienteT).values(newCliente);
 	},
-	editarCliente: async (newInfo: Partial<InsertCliente>) => {
-		await db.update(clienteT).set(newInfo);
+	editarCliente: async (id: number, newInfo: Partial<InsertCliente>) => {
+		await db.update(clienteT).set(newInfo).where(eq(clienteT.id, id));
 	},
 	excluirCliente: async (id: number) => {
 		await db.delete(clienteT).where(eq(clienteT.id, id));

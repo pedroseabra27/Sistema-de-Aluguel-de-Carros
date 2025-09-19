@@ -14,11 +14,15 @@ export const listarClientes = query(z.string(), async (titulo) => {
 	return clientes;
 });
 
-export const editarCliente = command(z.custom<Partial<InsertCliente>>(), async (dados) => {
-	await clienteController().editarCliente(dados);
-});
+export const editarCliente = command(
+	z.object({ id: z.number(), data: z.custom<Partial<InsertCliente>>() }),
+	async (dados) => {
+		await clienteController().editarCliente(dados.id, dados.data);
+		await listarClientes('').refresh();
+	}
+);
 
 export const excluirCliente = command(z.number(), async (id) => {
 	await clienteController().excluirCliente(id);
-    await listarClientes('').refresh()
+	await listarClientes('').refresh();
 });
