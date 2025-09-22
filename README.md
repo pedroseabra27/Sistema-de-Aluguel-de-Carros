@@ -14,7 +14,23 @@ Este projeto consiste no desenvolvimento de um Sistema Aluguel de Carros web des
 - João Paulo Carneiro Aramuni
 
 ## Tecnologias utilizadas
-Svelte, Drizzle, PostgreSQL e Tailwind CSS
+
+<div align="center"> 
+ 
+<br/>
+<br/>
+
+<img width="60px" height="60px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/svelte/svelte-original.svg" />
+<img width="60px" height="60px" src="https://seeklogo.com/images/D/drizzle-orm-logo-B3F3119275-seeklogo.com.png" />
+<img width="60px" height="60px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" />
+<img width="60px" height="60px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" />
+          
+<br/>
+
+</div>
+
+<br/>
+<br/>
 
 ## Relação das dependências e bibliotecas/frameworks usados
 
