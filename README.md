@@ -15,10 +15,7 @@ Este projeto consiste no desenvolvimento de um Sistema Aluguel de Carros web des
 
 ## Tecnologias
 
-<img width="60px" height="60px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/svelte/svelte-original.svg" />
-<img width="60px" height="60px" src="https://cdn.simpleicons.org/drizzle" />
-<img width="60px" height="60px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" />
-<img width="60px" height="60px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" />
+<img width="60px" height="60px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/svelte/svelte-original.svg" /> <img width="60px" height="60px" src="https://cdn.simpleicons.org/drizzle" /> <img width="60px" height="60px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" /> <img width="60px" height="60px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" />
 
 ## Relação das dependências e bibliotecas/frameworks usados
 
