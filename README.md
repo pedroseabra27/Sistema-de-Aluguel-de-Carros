@@ -27,3 +27,5 @@ Este projeto consiste no desenvolvimento de um Sistema Aluguel de Carros web des
    - `npm install`
 3. Ambiente de desenvolvimento
    - `npm run dev`
+
+## Wireframes no Figma
