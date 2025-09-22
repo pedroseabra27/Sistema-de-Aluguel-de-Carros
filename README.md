@@ -13,7 +13,7 @@ Este projeto consiste no desenvolvimento de um Sistema Aluguel de Carros web des
 ## Professor
 - João Paulo Carneiro Aramuni
 
-## Tecnologias utilizadas
+## Tecnologias 
 
 <div align="center"> 
  
@@ -21,7 +21,7 @@ Este projeto consiste no desenvolvimento de um Sistema Aluguel de Carros web des
 <br/>
 
 <img width="60px" height="60px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/svelte/svelte-original.svg" />
-<img width="60px" height="60px" src="https://seeklogo.com/images/D/drizzle-orm-logo-B3F3119275-seeklogo.com.png" />
+<img width="60px" height="60px" src="https://raw.githubusercontent.com/drizzle-team/drizzle-orm/main/logo/drizzle-orm.png" />
 <img width="60px" height="60px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" />
 <img width="60px" height="60px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" />
           
