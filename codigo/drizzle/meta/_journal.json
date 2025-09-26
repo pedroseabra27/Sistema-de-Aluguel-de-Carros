@@ -15,6 +15,13 @@
       "when": 1758322022529,
       "tag": "0001_yellow_steel_serpent",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1758927880558,
+      "tag": "0002_minor_robin_chapel",
+      "breakpoints": true
     }
   ]
 }
