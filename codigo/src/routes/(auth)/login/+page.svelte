@@ -23,7 +23,7 @@
 				{
 					email: formData.email,
 					password: formData.password,
-					callbackURL: '/admin'
+					callbackURL: '/clientes'
 				},
 				{
 					onSuccess: (ctx) => {
