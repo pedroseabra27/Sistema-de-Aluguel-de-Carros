@@ -7,7 +7,7 @@
 	} from '$lib/client/remote/cliente.remote';
 	import type { InsertCliente, SelectCliente } from '$lib/server/db/schema';
 	import { toast } from 'svelte-sonner';
-	import type { PageProps } from './$types';
+	import type { PageProps } from '../../clientes/$types';
 
 	let { data }: PageProps = $props();
 
