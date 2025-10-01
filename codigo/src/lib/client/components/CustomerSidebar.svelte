@@ -28,7 +28,12 @@
 		{
 			icon: User,
 			label: 'Novo pedido',
-			href: '/customer/pedido'
+			href: '/customer/solicitar'
+		},
+		{
+			icon: User,
+			label: 'Seus pedidos',
+			href: '/customer/pedidos'
 		},
 		
 	]);
