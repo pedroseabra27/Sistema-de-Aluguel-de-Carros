@@ -1,0 +1,1 @@
+ALTER TABLE "automovel" ADD COLUMN "image_link" text;

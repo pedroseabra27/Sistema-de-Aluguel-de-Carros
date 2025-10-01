@@ -43,6 +43,13 @@
       "when": 1759353510997,
       "tag": "0005_kind_logan",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1759354381176,
+      "tag": "0006_condemned_masque",
+      "breakpoints": true
     }
   ]
 }

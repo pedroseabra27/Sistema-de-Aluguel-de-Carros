@@ -9,7 +9,8 @@ export const automovelT = pgTable('automovel', {
 	placa: text('placa').notNull(),
 	user_id: text('user_id')
 		.references(() => user.id)
-		.notNull()
+		.notNull(),
+	image_link: text()
 });
 
 export type SelectAutomovel = typeof automovelT.$inferSelect;
