@@ -23,7 +23,7 @@
 				{
 					email: formData.email,
 					password: formData.password,
-					callbackURL: '/clientes'
+					callbackURL: '/admin/clientes'
 				},
 				{
 					onSuccess: (ctx) => {
@@ -34,6 +34,10 @@
 					}
 				}
 			);
+
+			if (error) {
+				throw new Error(error.message);
+			}
 			console.log('Login data:', data);
 			console.log('Login error:', error);
 		} catch (error) {
