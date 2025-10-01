@@ -33,7 +33,7 @@
 		{
 			icon: User,
 			label: 'Clientes',
-			href: '/clientes'
+			href: '/admin/clientes'
 		},
 		
 	]);
