@@ -5,6 +5,19 @@ import { clienteT, type InsertCliente } from './schema';
 
 export const clienteController = () => ({
 	criarCliente: async (newCliente: InsertCliente) => {
+		if (!newCliente.email) {
+			throw new Error('Email do usuário é necessário.');
+		}
+
+		const [existingCliente] = await db
+			.select()
+			.from(clienteT)
+			.where(eq(clienteT.email, newCliente.email))
+			.limit(1);
+
+		if (existingCliente) {
+			throw new Error('Cliente já cadastrado para este email.');
+		}
 		await db.insert(clienteT).values(newCliente);
 	},
 	editarCliente: async (id: number, newInfo: Partial<InsertCliente>) => {
