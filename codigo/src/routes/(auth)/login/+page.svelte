@@ -9,7 +9,8 @@
 
 	let formData = $state({
 		email: '',
-		password: ''
+		password: '',
+		remember: false
 	});
 
 	async function handleSubmit(e: Event) {
@@ -23,7 +24,8 @@
 				{
 					email: formData.email,
 					password: formData.password,
-					callbackURL: '/admin/clientes'
+					callbackURL: '/admin/clientes',
+					rememberMe: formData.remember
 				},
 				{
 					onSuccess: (ctx) => {
@@ -93,7 +95,11 @@
 
 	<div class="flex items-center justify-between">
 		<label class="label cursor-pointer gap-1.5">
-			<input type="checkbox" class="checkbox checkbox-primary checkbox-sm" />
+			<input
+				type="checkbox"
+				class="checkbox checkbox-primary checkbox-sm"
+				bind:value={formData.remember}
+			/>
 			<span class="label-text text-xs">Lembrar-me</span>
 		</label>
 		<a href="/recuperar-senha" class="link link-primary link-hover text-xs">Esqueceu sua senha?</a>
