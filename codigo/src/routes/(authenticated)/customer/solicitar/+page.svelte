@@ -54,7 +54,6 @@
 	}
 
 	let formData: InsertPedido = $state({
-		cliente_id: data.cliente.id || null,
 		status: 'PENDENTE',
 		data_pedido: new Date(),
 		data_fim: null,
@@ -65,14 +64,21 @@
 	async function solicitarPedido() {
 		isCreating = true;
 		const toastId = toast.loading('Solicitando pedido...');
-		try {
-			const payload = {
-				...formData,
-				data_inicio: formData.data_inicio ? new Date(formData.data_inicio) : null,
-				data_fim: formData.data_fim ? new Date(formData.data_fim) : null
-			};
 
-			currentOrder = await criarPedido(payload);
+		if (!formData.data_inicio || !formData.data_fim || !selectedVehicle) {
+			toast.error('Por favor, preencha todos os campos obrigatórios.', { id: toastId });
+			isCreating = false;
+			return;
+		}
+
+		try {
+			currentOrder = await criarPedido({
+				...formData,
+				data_inicio: new Date(formData.data_inicio),
+				data_fim: new Date(formData.data_fim),
+				veiculo_id: selectedVehicle.matricula,
+				cliente_id: data.cliente.id
+			});
 			toast.success('Pedido solicitado com sucesso!', { id: toastId });
 		} catch (error) {
 			orderPlaced = false;
