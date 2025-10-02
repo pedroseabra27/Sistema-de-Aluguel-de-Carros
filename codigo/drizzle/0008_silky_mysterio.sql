@@ -1,0 +1,2 @@
+ALTER TABLE "pedido" ADD COLUMN "veiculo_id" integer;--> statement-breakpoint
+ALTER TABLE "pedido" ADD CONSTRAINT "pedido_veiculo_id_automovel_matricula_fk" FOREIGN KEY ("veiculo_id") REFERENCES "public"."automovel"("matricula") ON DELETE no action ON UPDATE no action;
