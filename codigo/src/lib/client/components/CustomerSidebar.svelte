@@ -4,8 +4,9 @@
 		UsersIcon,
 		LogOutIcon,
 		type Icon as IconType,
-		User
-
+		User,
+		PackageOpen,
+		Car
 	} from '@lucide/svelte';
 	import { page } from '$app/state';
 	import { authClient } from '$lib/client/auth-client';
@@ -26,16 +27,15 @@
 
 	const navigationItems: SidebarItem[] = $derived([
 		{
-			icon: User,
+			icon: Car,
 			label: 'Novo pedido',
 			href: '/customer/solicitar'
 		},
 		{
-			icon: User,
+			icon: PackageOpen,
 			label: 'Seus pedidos',
 			href: '/customer/pedidos'
-		},
-		
+		}
 	]);
 
 	const settingsItems: SidebarItem[] = [{ icon: LogOutIcon, label: 'Sair' }];
@@ -63,9 +63,7 @@
 >
 	<div class="border-base-200 border-b p-4">
 		<div class="flex items-center">
-			<span class="mx-3 text-lg font-bold text-[var(--sidebar-foreground)]"
-				>Aluguel de carros</span
-			>
+			<span class="mx-3 text-lg font-bold text-[var(--sidebar-foreground)]">Aluguel de carros</span>
 		</div>
 	</div>
 
