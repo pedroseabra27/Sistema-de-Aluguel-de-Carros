@@ -17,8 +17,11 @@ export const veiculoController = () => ({
 						 lower(${automovelT.marca}) like ${`%${titulo.toLowerCase()}%`} OR 
 						 lower(${automovelT.placa}) like ${`%${titulo.toLowerCase()}%`} OR 
 						 ${automovelT.ano}::text like ${`%${titulo}%`})`
-				: undefined
+				: undefined,
+
+			with: {
+				user: true
+			}
 		});
-		//FAZER JOIN DO USER
 	}
 });

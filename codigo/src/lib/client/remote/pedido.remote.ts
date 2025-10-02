@@ -10,3 +10,9 @@ export const criarPedido = command(z.custom<InsertPedido>(), async (pedido) => {
 export const listarPedidos = query(async () => {
 	return await pedidoController().listarPedidos();
 });
+
+export const listarPedidosCliente = query(z.number(), async (clienteId) => {
+	return await pedidoController().listarPedidosCliente(clienteId);
+});
+
+export type listarPedidosClienteType = Awaited<ReturnType<typeof listarPedidosCliente>>;
