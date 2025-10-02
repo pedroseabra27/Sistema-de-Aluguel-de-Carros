@@ -13,3 +13,12 @@ export function debounce<T extends (...args: any[]) => void>(
 		timeoutId = window.setTimeout(() => func(...args), delay);
 	};
 }
+
+export function formatDate(date: Date | string | undefined | null) {
+	if (!date) return 'N/A';
+	return new Date(date).toLocaleDateString('pt-BR', {
+		day: '2-digit',
+		month: '2-digit',
+		year: 'numeric'
+	});
+}
