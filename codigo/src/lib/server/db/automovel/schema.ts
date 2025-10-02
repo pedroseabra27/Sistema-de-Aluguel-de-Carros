@@ -1,5 +1,7 @@
 import { pgTable, serial, text } from 'drizzle-orm/pg-core';
 import { user } from '../auth-schema';
+import { relations } from 'drizzle-orm';
+import { pedidoT } from '../schema';
 
 export const automovelT = pgTable('automovel', {
 	matricula: serial('matricula').primaryKey(),
@@ -12,6 +14,14 @@ export const automovelT = pgTable('automovel', {
 		.notNull(),
 	image_link: text()
 });
+
+export const automovelRelation = relations(automovelT, ({ one, many }) => ({
+	user: one(user, {
+		fields: [automovelT.user_id],
+		references: [user.id]
+	}),
+	pedido: many(pedidoT)
+}));
 
 export type SelectAutomovel = typeof automovelT.$inferSelect;
 export type InsertAutomovel = typeof automovelT.$inferInsert;
