@@ -35,7 +35,11 @@
 			label: 'Clientes',
 			href: '/admin/clientes'
 		},
-		
+		{
+			icon: PackageOpen,
+			label: 'Pedidos',
+			href: '/admin/pedidos'
+		}
 	]);
 
 	const settingsItems: SidebarItem[] = [{ icon: LogOutIcon, label: 'Sair' }];
