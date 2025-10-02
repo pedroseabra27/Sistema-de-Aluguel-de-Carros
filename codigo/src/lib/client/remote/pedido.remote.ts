@@ -4,7 +4,7 @@ import type { InsertPedido } from '$lib/server/db/pedido/schema';
 import z from 'zod';
 
 export const criarPedido = command(z.custom<InsertPedido>(), async (pedido) => {
-	await pedidoController().criarPedido(pedido);
+	return await pedidoController().criarPedido(pedido);
 });
 
 export const listarPedidos = query(async () => {
