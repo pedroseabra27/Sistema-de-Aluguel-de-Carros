@@ -20,6 +20,7 @@
 	import { debounce } from '$lib';
 	import Loading from '$lib/client/components/Loading.svelte';
 	import { toast } from 'svelte-sonner';
+	import { goto } from '$app/navigation';
 
 	let { data }: PageProps = $props();
 
@@ -80,6 +81,9 @@
 				cliente_id: data.cliente.id
 			});
 			toast.success('Pedido solicitado com sucesso!', { id: toastId });
+			setTimeout(async () => {
+				await goto('/customer/pedidos');
+			}, 500);
 		} catch (error) {
 			orderPlaced = false;
 			toast.error('Erro ao solicitar pedido. Tente novamente.', { id: toastId });
@@ -103,7 +107,7 @@
 		<input
 			type="text"
 			oninput={handleInputChange}
-			placeholder="Buscar por modelo, marca ou placa..."
+			placeholder="Buscar por modelo, marca, placa ou ano..."
 			class="input input-ghost w-full focus:outline-none"
 		/>
 	</div>
@@ -135,25 +139,25 @@
 						<div class="card-body p-5">
 							<div class=" flex items-center justify-between">
 								<h2 class="card-title text-primary text-xl font-bold">
-									{vehicle.marca}
+									{vehicle.modelo}
 								</h2>
-								<span class="text-lg font-medium">{vehicle.modelo}</span>
+								<span class="text-lg font-medium">{vehicle.marca}</span>
 							</div>
 
 							<div class="divider my-0"></div>
 
-							<div class="mb-4 grid grid-cols-2 gap-2 text-sm">
-								<div class="flex items-center">
+							<div class=" grid grid-cols-2 gap-2 text-sm">
+								<!-- <div class="flex items-center">
 									<Tag size={16} class="text-secondary mr-2" />
 									<span>Matrícula: {vehicle.matricula}</span>
-								</div>
+								</div> -->
 								<div class="flex items-center">
+									<Info size={16} class="text-info mr-2" />
+									<span>Dono: {vehicle.user.name}</span>
+								</div>
+								<div class="flex items-center justify-end">
 									<MapPin size={16} class="text-error mr-2" />
 									<span>Placa: {vehicle.placa}</span>
-								</div>
-								<div class="col-span-2 flex items-center">
-									<Info size={16} class="text-info mr-2" />
-									<span>ID: {vehicle.user_id.substring(0, 8)}...</span>
 								</div>
 							</div>
 
