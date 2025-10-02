@@ -6,9 +6,9 @@ export const load = (async ({ locals: { session } }) => {
         throw redirect(303, '/login');
     }
 
-    if (session.user.role) {
-        redirect(303, `/${session.user.role}`);
-    }
+    // if (session.user.role) {
+    //     redirect(303, `/${session.user.role}`);
+    // }
 
     return { session };
 }) satisfies LayoutServerLoad;
