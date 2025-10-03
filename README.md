@@ -28,4 +28,6 @@ Este projeto consiste no desenvolvimento de um Sistema Aluguel de Carros web des
 3. Ambiente de desenvolvimento
    - `npm run dev`
 
-## Wireframes no Figma
+## Arquitetura
+  - Nosso software foi desenvolvido seguindo o padrão MVC (Model-View-Controller), uma arquitetura que garante organização, escalabilidade e clareza no código.
+Esse modelo permite separar de forma elegante as responsabilidades: o Model concentra as regras de negócio e os dados, a View cuida da experiência visual do usuário e o Controller atua como intermediário inteligente entre ambos.
