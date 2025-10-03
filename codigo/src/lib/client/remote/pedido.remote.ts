@@ -26,7 +26,10 @@ export const atualizarStatusPedido = command(
 		status: z.enum(statusPedidoEnum.enumValues)
 	}),
 	async ({ pedidoId, status }) => {
-		return await pedidoController().atualizarStatusPedido(pedidoId, status);
+		const result = await pedidoController().atualizarStatusPedido(pedidoId, status);
+
+		await listarTodosPedidosComCliente().refresh();
+		return result;
 	}
 );
 
