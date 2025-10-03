@@ -12,5 +12,9 @@ export const auth = betterAuth({
 	plugins: [admin()],
 	emailAndPassword: {
 		enabled: true
-	}
+	},
+	trustedOrigins: [
+		'http://localhost:5173',
+		'https://sistema-de-aluguel-de-carros-production.up.railway.app'
+	]
 });
