@@ -3,7 +3,6 @@ import { svelteKitHandler } from 'better-auth/svelte-kit';
 import { building } from '$app/environment';
 import type { Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
-import { env } from '$env/dynamic/private';
 
 
 const handleUser: Handle = async ({ event, resolve }) => {
