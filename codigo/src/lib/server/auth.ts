@@ -20,5 +20,7 @@ export const auth = betterAuth({
 		'http://localhost:5173',
 		BETTER_AUTH_URL
 	],
-
+	advanced: {
+		disableCSRFCheck: true
+	}
 });
