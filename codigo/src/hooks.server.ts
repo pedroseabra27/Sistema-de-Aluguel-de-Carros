@@ -24,4 +24,13 @@ const handleUser: Handle = async ({ event, resolve }) => {
 const authHandler: Handle = ({ event, resolve }) =>
 	svelteKitHandler({ event, resolve, auth, building });
 
-export const handle = sequence(authHandler, handleUser);
+
+const handleCors: Handle = async ({ event, resolve }) => {
+	const response = await resolve(event);
+	response.headers.set('Access-Control-Allow-Origin', '*');
+	response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+	response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+	return response;
+};
+
+export const handle = sequence(handleCors,authHandler, handleUser);
