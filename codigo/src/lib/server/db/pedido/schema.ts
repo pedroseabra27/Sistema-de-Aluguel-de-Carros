@@ -2,7 +2,7 @@ import { integer, pgEnum, pgTable, serial, text, timestamp } from 'drizzle-orm/p
 import { automovelT, clienteT } from '../schema';
 import { relations } from 'drizzle-orm';
 
-export const statusPedidoEnum = pgEnum('statusPedido', ['PENDENTE', 'CONCLUIDO', 'CONFIRMADO']);
+export const statusPedidoEnum = pgEnum('statusPedido', ['PENDENTE', 'CONCLUIDO', 'CONFIRMADO','CANCELADO']);
 
 export const pedidoT = pgTable('pedido', {
 	id: serial('id').primaryKey(),

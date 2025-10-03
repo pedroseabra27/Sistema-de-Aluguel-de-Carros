@@ -1,0 +1,1 @@
+ALTER TYPE "public"."statusPedido" ADD VALUE 'CANCELADO';
