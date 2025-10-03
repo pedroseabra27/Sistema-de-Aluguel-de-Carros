@@ -57,13 +57,6 @@
       "when": 1759364940617,
       "tag": "0007_rare_shinobi_shaw",
       "breakpoints": true
-    },
-    {
-      "idx": 8,
-      "version": "7",
-      "when": 1759409217650,
-      "tag": "0008_silky_mysterio",
-      "breakpoints": true
     }
   ]
 }
