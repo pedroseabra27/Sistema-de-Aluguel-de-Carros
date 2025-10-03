@@ -51,8 +51,8 @@
 			<h2 class="text-3xl font-bold mb-6">Pronto para começar?</h2>
 			<p class="text-xl mb-8 max-w-2xl mx-auto">Junte-se aos milhares de clientes satisfeitos e experimente a melhor forma de alugar um veículo.</p>
 			<div class="flex flex-wrap gap-4 justify-center">
-				<a href="/auth/signup" class="btn btn-primary btn-lg">Criar conta agora</a>
-				<a href="/auth/login" class="btn btn-outline btn-secondary btn-lg">Já tenho uma conta</a>
+				<a href="/signup" class="btn btn-primary btn-lg">Criar conta agora</a>
+				<a href="/login" class="btn btn-outline btn-secondary btn-lg">Já tenho uma conta</a>
 			</div>
 		</div>
 	</section>
