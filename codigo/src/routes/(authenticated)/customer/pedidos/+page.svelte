@@ -70,6 +70,7 @@
 	};
 
 	const Status: Record<Exclude<SelectPedido['status'], null>, string> = {
+		CANCELADO: 'Cancelado',
 		PENDENTE: 'Pendente',
 		CONFIRMADO: 'Confirmado',
 		CONCLUIDO: 'Concluído'
