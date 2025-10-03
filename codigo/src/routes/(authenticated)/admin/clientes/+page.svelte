@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { debounce } from '$lib';
+	import Loading from '$lib/client/components/Loading.svelte';
 	import {
 		criarCliente,
 		editarCliente,
@@ -6,6 +8,7 @@
 		listarClientes
 	} from '$lib/client/remote/cliente.remote';
 	import type { InsertCliente, SelectCliente } from '$lib/server/db/schema';
+	import { FileText } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 
 	let newCustomer = $state<InsertCliente>({
@@ -21,6 +24,17 @@
 	let showCreateModal = $state(false);
 
 	let searchQuery = $state('');
+	let debouncedSearchTerm = $state('');
+
+	const updateSearchTerm = debounce((term: string) => {
+		debouncedSearchTerm = term;
+	}, 300);
+
+	function handleInputChange(event: Event) {
+		const target = event.target as HTMLInputElement;
+		searchQuery = target.value;
+		updateSearchTerm(searchQuery);
+	}
 
 	let isCreating = $state(false);
 	async function handleSubmit() {
@@ -91,11 +105,15 @@
 	}
 </script>
 
-<div class="p-4">
-	<div class="mb-6 flex items-center justify-between">
-		<h1 class=" text-2xl font-bold">Gestão de Clientes</h1>
+
+<div class="container mx-auto px-4">
+	<header class="mt-8 mb-6 flex justify-between items-center">
+		<h1 class="text-primary flex items-center text-3xl font-bold">
+			<FileText class="mr-3" size={28} />
+			Gestão de Clientes
+		</h1>
 		<button class="btn btn-primary" onclick={openCreateModal}>Novo Cliente</button>
-	</div>
+	</header>
 
 	<div class="card bg-base-100 border-base-200 rounded-md border shadow-xl">
 		<div class="card-body">
@@ -106,14 +124,14 @@
 						type="text"
 						placeholder="Buscar cliente..."
 						class="input input-bordered w-full"
-						bind:value={searchQuery}
+						oninput={handleInputChange}
 					/>
 				</div>
 			</div>
 
 			<div class="overflow-x-auto">
-				{#await listarClientes(searchQuery)}
-					Carregando....
+				{#await listarClientes(debouncedSearchTerm)}
+					<Loading />
 				{:then clientes}
 					{#if clientes.length > 0}
 						<table class="table-zebra table w-full">
