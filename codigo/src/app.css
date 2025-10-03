@@ -1,10 +1,10 @@
 @import 'tailwindcss';
-@import '@fontsource/poppins';
+@import '@fontsource-variable/jetbrains-mono';
 
 @plugin "daisyui" {
 	themes: corporate --default;
 }
 
 * {
-	font-family: 'Poppins', sans-serif;
+	font-family: 'JetBrains Mono Variable', monospace;
 }
