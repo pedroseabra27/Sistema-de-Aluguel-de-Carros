@@ -10,9 +10,11 @@ const handleUser: Handle = async ({ event, resolve }) => {
 	console.log(`${request.method}: ${new URL(request.url).pathname}`);
 
 	try {
-		const [session] = await Promise.all([auth.api.getSession({ headers: request.headers })]);
+		const session = await auth.api.getSession({ headers: request.headers });
 
-		event.locals.session = session;
+		if (session) {
+			event.locals.session = session;
+		}
 	} catch (error) {
 		console.error(error);
 	}
