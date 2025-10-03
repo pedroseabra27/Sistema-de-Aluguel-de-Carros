@@ -3,6 +3,8 @@ import { svelteKitHandler } from 'better-auth/svelte-kit';
 import { building } from '$app/environment';
 import type { Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
+import { env } from '$env/dynamic/private';
+
 
 const handleUser: Handle = async ({ event, resolve }) => {
 	const { request } = event;
@@ -27,7 +29,7 @@ const authHandler: Handle = ({ event, resolve }) =>
 
 const handleCors: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
-	response.headers.set('Access-Control-Allow-Origin', '*');
+	response.headers.set('Access-Control-Allow-Origin', env.BETTER_AUTH_URL || 'http://localhost:5173');
 	response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 	response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 	return response;
