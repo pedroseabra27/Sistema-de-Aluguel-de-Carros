@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { formatDate } from '$lib';
-	import { listarTodosPedidosComCliente, atualizarStatusPedido, type listarTodosPedidosComClienteType } from '$lib/client/remote/pedido.remote';
+	import Kanban from '$lib/client/components/kanban/Kanban.svelte';
+	import Loading from '$lib/client/components/Loading.svelte';
+	import {
+		listarTodosPedidosComCliente,
+		atualizarStatusPedido,
+	} from '$lib/client/remote/pedido.remote';
 	import type { SelectPedido } from '$lib/server/db/schema';
 	import {
 		Calendar,
@@ -16,12 +21,15 @@
 		Check,
 		X
 	} from '@lucide/svelte';
+	import { toast } from 'svelte-sonner';
 
-	let statusFilter: Exclude<SelectPedido['status'], null> | '' = $state('');
+	type ColumnType = {
+		title: string;
+		status: SelectPedido['status'];
+		visible: boolean;
+	};
 
 	let isExpanded: Record<SelectPedido['id'], boolean> = $state({});
-
-	let pedidos: listarTodosPedidosComClienteType = $state([]);
 
 	const getStatusBadge = (status: SelectPedido['status']) => {
 		switch (status) {
@@ -31,6 +39,8 @@
 				return { class: 'badge-info', icon: PackageOpen, text: 'Confirmado' };
 			case 'CONCLUIDO':
 				return { class: 'badge-success', icon: CheckCircle, text: 'Concluído' };
+			case 'CANCELADO':
+				return { class: 'badge-error', icon: X, text: 'Cancelado' };
 			default:
 				return { class: 'badge-ghost', icon: AlertTriangle, text: 'Desconhecido' };
 		}
@@ -46,79 +56,76 @@
 	};
 
 	const toggleExpanded = (id: SelectPedido['id']) => {
-		isExpanded = { ...isExpanded, [id]: !isExpanded[id] };
+		isExpanded[id] = !isExpanded[id];
 	};
 
-	const filterOrdersByStatus = (orders: listarTodosPedidosComClienteType) => {
-		if (!statusFilter) return orders;
-		return orders.filter((order) => order.status === statusFilter);
-	};
+	let isConfirmingPedido: Record<SelectPedido['id'], boolean> = $state({});
+	let isRefusingPedido: Record<SelectPedido['id'], boolean> = $state({});
 
 	const confirmarPedido = async (pedidoId: number) => {
+		isConfirmingPedido[pedidoId] = true;
+		const toastId = toast.loading('Confirmando pedido...');
 		try {
 			await atualizarStatusPedido({ pedidoId, status: 'CONFIRMADO' });
-			// Atualizar o status localmente
-			pedidos = pedidos.map(pedido =>
-				pedido.id === pedidoId ? { ...pedido, status: 'CONFIRMADO' as const } : pedido
-			);
+			toast.success('Pedido confirmado com sucesso!', { id: toastId });
 		} catch (error) {
 			console.error('Erro ao confirmar pedido:', error);
-			alert('Erro ao confirmar pedido. Tente novamente.');
+			toast.error('Erro ao confirmar pedido. Tente novamente.', { id: toastId });
+		} finally {
+			isConfirmingPedido[pedidoId] = false;
 		}
 	};
 
 	const recusarPedido = async (pedidoId: number) => {
+		isRefusingPedido[pedidoId] = true;
+		const toastId = toast.loading('Recusando pedido...');
 		try {
-			await atualizarStatusPedido({ pedidoId, status: 'CONCLUIDO' }); // Usando CONCLUIDO como status de recusa
-			// Atualizar o status localmente
-			pedidos = pedidos.map(pedido =>
-				pedido.id === pedidoId ? { ...pedido, status: 'CONCLUIDO' as const } : pedido
-			);
+			await atualizarStatusPedido({ pedidoId, status: 'CANCELADO' });
+			toast.success('Pedido recusado com sucesso!', { id: toastId });
 		} catch (error) {
 			console.error('Erro ao recusar pedido:', error);
-			alert('Erro ao recusar pedido. Tente novamente.');
+			toast.error('Erro ao recusar pedido. Tente novamente.', { id: toastId });
+		} finally {
+			isRefusingPedido[pedidoId] = false;
 		}
 	};
 
-	const Status: Record<Exclude<SelectPedido['status'], null>, string> = {
-		PENDENTE: 'Pendente',
-		CONFIRMADO: 'Confirmado',
-		CONCLUIDO: 'Concluído'
-	};
-
-	const statusOptions = [...Object.entries(Status).map(([value, label]) => ({ value, label }))];
+	const columns: ColumnType[] = [
+		{
+			title: 'Cancelado',
+			status: 'CANCELADO',
+			visible: false
+		},
+		{
+			title: 'Pendente',
+			status: 'PENDENTE',
+			visible: true
+		},
+		{
+			title: 'Confirmado',
+			status: 'CONFIRMADO',
+			visible: true
+		},
+		{
+			title: 'Concluído',
+			status: 'CONCLUIDO',
+			visible: true
+		}
+	];
 </script>
 
-<div class="container mx-auto px-4 py-8">
-	<header class="mb-8">
+<div class="container mx-auto px-4">
+	<header class="mt-8">
 		<h1 class="text-primary flex items-center text-3xl font-bold">
 			<FileText class="mr-3" size={28} />
 			Gestão de Pedidos
 		</h1>
-		<p class="text-base-content/70 mt-2">
-			
-		</p>
+		<p class="text-base-content/70 mt-2"></p>
 	</header>
 
-	<div class="mb-6 flex flex-wrap items-center gap-4">
-		<div class="form-control">
-			<label class="label" for="status-filter">
-				<span class="label-text">Filtrar por Status</span>
-			</label>
-			<select class="select select-bordered" id="status-filter" bind:value={statusFilter}>
-				<option value="">Todos os status</option>
-				{#each statusOptions as option}
-					<option value={option.value}>{option.label}</option>
-				{/each}
-			</select>
-		</div>
-	</div>
-
-	{#await listarTodosPedidosComCliente().then(result => pedidos = result)}
-		<div class="flex justify-center py-16">
-			<div class="loading loading-spinner loading-lg"></div>
-		</div>
-	{:then _}
+	{#await listarTodosPedidosComCliente()}
+		<Loading size="large" />
+	{:then pedidos}
 		{#if pedidos.length === 0}
 			<div class="flex flex-col items-center justify-center py-16 text-center">
 				<PackageOpen size={64} class="text-base-content/30 mb-4" />
@@ -126,15 +133,15 @@
 				<p class="text-base-content/70">Não há pedidos cadastrados no sistema.</p>
 			</div>
 		{:else}
-			<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-				{#each filterOrdersByStatus(pedidos) as pedido}
+			<Kanban data={pedidos} key="pedidos" originalCols={columns}>
+				{#snippet card(pedido)}
 					{@const statusBadge = getStatusBadge(pedido.status)}
 					{@const expanded = isExpanded[pedido.id] || false}
 
 					<div
 						class="card bg-base-100 border-base-200 border shadow-sm transition-all duration-300 hover:shadow-md"
 					>
-						<div class="card-body p-5">
+						<div class="card-body p-3">
 							<div class="flex flex-wrap items-start justify-between gap-3">
 								<div>
 									<div class="mb-1 flex items-center gap-2">
@@ -178,7 +185,8 @@
 									</div>
 									<div>
 										<h3 class="text-primary font-medium">
-											{pedido.veiculo.marca} {pedido.veiculo.modelo}
+											{pedido.veiculo.marca}
+											{pedido.veiculo.modelo}
 										</h3>
 										<div class="mt-1 flex flex-wrap gap-2">
 											<div class="badge badge-outline badge-sm">{pedido.veiculo.ano}</div>
@@ -198,11 +206,11 @@
 							{/if}
 
 							{#if pedido.cliente}
-								<div class="mt-3 flex items-center gap-2 rounded-lg bg-base-200/50 p-3">
+								<div class="bg-base-200/50 mt-3 flex items-center gap-2 rounded-lg p-3">
 									<User size={16} class="text-base-content/70" />
 									<div>
 										<p class="text-sm font-medium">{pedido.cliente.nome}</p>
-										<p class="text-xs text-base-content/70">CPF: {pedido.cliente.cpf}</p>
+										<p class="text-base-content/70 text-xs">CPF: {pedido.cliente.cpf}</p>
 									</div>
 								</div>
 							{/if}
@@ -210,18 +218,20 @@
 							{#if pedido.status === 'PENDENTE'}
 								<div class="mt-4 flex gap-2">
 									<button
-										class="btn btn-success btn-sm flex-1"
-										onclick={() => confirmarPedido(pedido.id)}
-									>
-										<Check size={16} />
-										Confirmar
-									</button>
-									<button
 										class="btn btn-error btn-sm flex-1"
+										disabled={isRefusingPedido[pedido.id]}
 										onclick={() => recusarPedido(pedido.id)}
 									>
 										<X size={16} />
 										Recusar
+									</button>
+									<button
+										class="btn btn-success btn-sm flex-1"
+										disabled={isConfirmingPedido[pedido.id]}
+										onclick={() => confirmarPedido(pedido.id)}
+									>
+										<Check size={16} />
+										Confirmar
 									</button>
 								</div>
 							{/if}
@@ -259,8 +269,8 @@
 							{/if}
 						</div>
 					</div>
-				{/each}
-			</div>
+				{/snippet}
+			</Kanban>
 		{/if}
 	{:catch error}
 		<div class="alert alert-error">
